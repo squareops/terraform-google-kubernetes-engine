@@ -1,6 +1,6 @@
 output "cluster_name" {
   description = "The name of the GKE cluster."
-  value       = format("%s-%s-gke-cluster", var.cluster_name, local.env)
+  value       = format("%s-%s-gke-cluster", var.cluster_name, local.environment)
 }
 
 output "cluster_region" {
