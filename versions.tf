@@ -4,18 +4,18 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = "< 5.0, >= 2.12"
+      version = ">= 4.51.0, < 5.0, !=4.65.0, !=4.65.1"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "~> 2.0"
+      version = "~> 2.10"
     }
-    kubectl = {
-      source  = "gavinbunney/kubectl"
-      version = ">= 1.7.0"
+    random = {
+      source  = "hashicorp/random"
+      version = ">= 2.1"
     }
   }
   provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-kubernetes-engine:private-cluster/v16.1.0"
+    module_name = "blueprints/terraform/terraform-google-kubernetes-engine:private-cluster/v27.0.0"
   }
 }
