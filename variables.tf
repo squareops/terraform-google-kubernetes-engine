@@ -1,4 +1,4 @@
-variable "project" {
+variable "project_name" {
   description = "The ID or project number of the Google Cloud project."
   type        = string
   default     = ""

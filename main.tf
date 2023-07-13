@@ -1,6 +1,6 @@
 locals {
   region      = var.region
-  project     = var.project
+  project     = var.project_name
   environment = var.environment
 }
 

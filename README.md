@@ -1,11 +1,66 @@
-# Terraform module for GKE
+# GCP GKE Terraform module
 
-### Pre-requisites
-### Install Below utilities
-1. Terraform 1.0.0 :- https://www.terraform.io/docs/cli/install/apt.html
-2. Kubectl 1.21.0 :- https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
-3. Helm 3.0.0 :- https://helm.sh/docs/intro/install/
-4. Cloud SDK :- https://cloud.google.com/sdk/docs/install
+![squareops_avatar]
+
+[squareops_avatar]: https://squareops.com/wp-content/uploads/2022/12/squareops-logo.png
+
+### [SquareOps Technologies](https://squareops.com/) Your DevOps Partner for Accelerating cloud journey.
+
+<br>
+This module simplifies the deployment of GKE clusters, allowing users to quickly create and manage a production-grade Kubernetes cluster on GCP. The module is highly configurable, allowing users to customize various aspects of the GKE cluster, such as the Kubernetes version, worker node instance type, and number of worker nodes. Additionally, the module provides a set of outputs that can be used to configure other resources, such as the Kubernetes config file.
+
+This module is ideal for users who want to quickly deploy an GKE cluster on GCP without the need for manual setup and configuration. It is also suitable for users who want to adopt best practices for security and scalability in their GKE deployments.
+
+## Usage Example
+
+```hcl
+module "gke" {
+  source                     = "./terraform-google-kubernetes-engine"
+  project                    = <project_name>
+  cluster_name               = "gke-cluster"
+  region                     = asia-south
+  environment                = "dev"
+  zones                      = ["asia-south1-a", "asia-south1-b", "asia-south1-c"]
+  vpc_name                   = "dev-vpc"
+  subnet                     = "dev-subnet-1"
+  kubernetes_version         = "1.25"
+  enable_private_endpoint    = true
+  master_authorized_networks = [""]
+  default_np_instance_type   = "e2-medium"
+  default_np_locations       = "asia-south1-a,asia-south1-b"
+  default_np_max_count       = 5
+  default_np_preemptible     = true
+
+}
+
+
+module "managed_node_pool" {
+  source             = "./modules/node-pool"
+  depends_on         = [module.gke]
+  project            = <project_name>
+  cluster_name       = module.gke.name
+  name               = "app"
+  environment        = "dev"
+  location           = "asia-south1"
+  kubernetes_version = "1.25"
+  service_account    = module.gke.service_accounts_gke
+  initial_node_count = 1
+  min_count          = 1
+  max_count          = 5
+  node_locations     = ["asia-south1-a", "asia-south1-b", "asia-south1-c"]
+  preemptible        = true
+  instance_type      = "e2-medium"
+  disk_size_gb       = 50
+  labels = {
+    "App-services" : true
+  }
+}
+
+```
+Refer [examples]() for more details.
+
+## Important Note
+To prevent destruction interruptions, any resources that have been created outside of Terraform and attached to the resources provisioned by Terraform must be deleted before the module is destroyed.
 
 ### Configure a Service Account
 1. Login to the GCP console. IAM > Service Account and Create a service account for authentication, provide the bellow given permissions accordingly and generate a JSON service account key.
@@ -24,27 +79,6 @@
         export GOOGLE_APPLICATION_CREDENTIALS="keypath"
         gcloud config set project <project-name>
 
-# USAGE
-- Used to create GKE cluster(Google Kubernetes Engine).
-- Contains the following features:
-  1. Creates a GKE cluster with different node pools consisting of "Preemtible" and "non-preemtible" nodes.
-  2. It contain a Infra-services node pool, an Application node pool with preemtible VMs and an Application node pool with non preemtible VMs.
-  3. Creating of firewall rules to allow different port required for bootstrap services or different infra-services.
-  4. Bootstrap services :
-        - Nginx Ingress Controller
-        - Cert Manager
-        - Kubernetes External Secret
-        - Keda metric server
-  5. Issues certificates with the help of Cluster Issuer.
-  6. Created default storage class for infra-services.
-
-
-For enablling bootstrap services, change the values in terraform.tfvars to true.
-
-    cert_manager_enabled     = true
-    ingress_nginx_enabled    = true
-    external_secret_enabled  = true
-    get_kubeconfig_enabled   = true // must be set true to get cluster credentials.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -103,7 +137,7 @@ No resources.
 | <a name="input_network_policy"></a> [network\_policy](#input\_network\_policy) | Enable network policy addon | `bool` | `false` | no |
 | <a name="input_network_policy_provider"></a> [network\_policy\_provider](#input\_network\_policy\_provider) | The network policy provider. | `string` | `"CALICO"` | no |
 | <a name="input_node_pools_oauth_scopes"></a> [node\_pools\_oauth\_scopes](#input\_node\_pools\_oauth\_scopes) | Map of lists containing node oauth scopes by node-pool name | `map(list(string))` | <pre>{<br>  "all": [<br>    "https://www.googleapis.com/auth/devstorage.read_only",<br>    "https://www.googleapis.com/auth/ndev.clouddns.readwrite",<br>    "https://www.googleapis.com/auth/service.management.readonly",<br>    "https://www.googleapis.com/auth/logging.write",<br>    "https://www.googleapis.com/auth/monitoring",<br>    "https://www.googleapis.com/auth/servicecontrol",<br>    "https://www.googleapis.com/auth/trace.append",<br>    "https://www.googleapis.com/auth/devstorage.read_only",<br>    "https://www.googleapis.com/auth/cloud-platform"<br>  ]<br>}</pre> | no |
-| <a name="input_project"></a> [project](#input\_project) | The ID or project number of the Google Cloud project. | `string` | `""` | no |
+| <a name="input_project_name"></a> [project\_name](#input\_project\_name) | The ID or project number of the Google Cloud project. | `string` | `""` | no |
 | <a name="input_region"></a> [region](#input\_region) | The region to host the cluster in (optional if zonal cluster / required if regional) | `string` | `null` | no |
 | <a name="input_regional"></a> [regional](#input\_regional) | Whether is a regional cluster (zonal cluster if set false. WARNING: changing this after cluster creation is destructive!) | `bool` | `true` | no |
 | <a name="input_release_channel"></a> [release\_channel](#input\_release\_channel) | The release channel of the cluster. Accepted values are `UNSPECIFIED`, `RAPID`, `REGULAR` and `STABLE`. Defaults to `UNSPECIFIED`. | `string` | `"STABLE"` | no |
