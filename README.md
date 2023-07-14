@@ -61,15 +61,9 @@ Refer [examples](https://github.com/sq-ia/terraform-google-kubernetes-engine/blo
 To prevent destruction interruptions, any resources that have been created outside of Terraform and attached to the resources provisioned by Terraform must be deleted before the module is destroyed.
 
 ### Configure a Service Account
-1. Login to the GCP console. IAM > Service Account and Create a service account for authentication, provide the bellow given permissions accordingly and generate a JSON service account key.
-2. Add following permissions on the service account as required:
-    - **Kubernetes Engine Admin** : For management of Kubernetes Clusters and their Kubernetes API objects.
-    - **Service Account User** : For using service account in GKE cluster
-    - **Service Account Admin & Project IAM Admin** : For creating and managing service accounts and assigning roles required in external-secrets. #Do not grant this role if not using external-secrets.
-    - **Storage Admin** : For managing GCS resources.
-    - **Logging Admin & Monitoring Admin** : If using logging and monitoring for CIS.
-    - **Cloud KMS CryptoKey Encrypter/Decrypter** : If you are using CMEK for encryption.
-    - **Secret Manager Secret Accessor** : For accessing secrets from secret manager.
+1. Login to the GCP console. IAM > Service Account and Create a service account for authentication.
+
+2. Provide the roles mentioned in [IAM.md](https://github.com/sq-ia/terraform-google-kubernetes-engine/blob/main/IAM.md).
 
 3. Run command in terminal to configure google credentials:  
 
