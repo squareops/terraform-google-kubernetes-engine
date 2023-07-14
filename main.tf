@@ -4,6 +4,8 @@ locals {
   environment = var.environment
 }
 
+data "google_client_config" "default" {}
+
 module "service_accounts_gke" {
   source     = "terraform-google-modules/service-accounts/google"
   version    = "~> 3.0"

@@ -15,17 +15,15 @@ This module is ideal for users who want to quickly deploy an GKE cluster on GCP 
 
 ```hcl
 module "gke" {
-  source                     = "./terraform-google-kubernetes-engine"
-  project                    = <project_name>
+  source                     = "squareops/kubernetes-engine/google"
+  project                    = project_name
   cluster_name               = "gke-cluster"
-  region                     = asia-south
+  region                     = "asia-south1"
   environment                = "dev"
   zones                      = ["asia-south1-a", "asia-south1-b", "asia-south1-c"]
   vpc_name                   = "dev-vpc"
   subnet                     = "dev-subnet-1"
   kubernetes_version         = "1.25"
-  enable_private_endpoint    = true
-  master_authorized_networks = [""]
   default_np_instance_type   = "e2-medium"
   default_np_locations       = "asia-south1-a,asia-south1-b"
   default_np_max_count       = 5
@@ -34,10 +32,10 @@ module "gke" {
 }
 
 
-module "managed_node_pool" {
-  source             = "./modules/node-pool"
+module "node_pool" {
+  source             = "squareops/kubernetes-engine/google//modules/node-pool"
   depends_on         = [module.gke]
-  project            = <project_name>
+  project            = project_name
   cluster_name       = module.gke.name
   name               = "app"
   environment        = "dev"
@@ -92,7 +90,9 @@ To prevent destruction interruptions, any resources that have been created outsi
 
 ## Providers
 
-No providers.
+| Name | Version |
+|------|---------|
+| <a name="provider_google"></a> [google](#provider\_google) | >= 4.51.0, < 5.0, !=4.65.0, !=4.65.1 |
 
 ## Modules
 
@@ -103,7 +103,9 @@ No providers.
 
 ## Resources
 
-No resources.
+| Name | Type |
+|------|------|
+| [google_client_config.default](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/client_config) | data source |
 
 ## Inputs
 

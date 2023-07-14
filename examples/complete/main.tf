@@ -6,7 +6,7 @@ locals {
 }
 
 module "gke" {
-  source                     = "./terraform-google-kubernetes-engine"
+  source                     = "squareops/kubernetes-engine/google"
   project                    = local.project_name
   cluster_name               = local.name
   region                     = local.region
@@ -26,7 +26,7 @@ module "gke" {
 
 
 module "managed_node_pool" {
-  source             = "./modules/node-pool"
+  source             = "squareops/kubernetes-engine/google//modules/node-pool"
   depends_on         = [module.gke]
   project            = local.project
   cluster_name       = module.gke.name

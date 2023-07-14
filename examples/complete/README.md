@@ -13,8 +13,8 @@ No requirements.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_gke"></a> [gke](#module\_gke) | ./terraform-google-kubernetes-engine | n/a |
-| <a name="module_managed_node_pool"></a> [managed\_node\_pool](#module\_managed\_node\_pool) | ./modules/node-pool | n/a |
+| <a name="module_gke"></a> [gke](#module\_gke) | squareops/kubernetes-engine/google | n/a |
+| <a name="module_managed_node_pool"></a> [managed\_node\_pool](#module\_managed\_node\_pool) | squareops/kubernetes-engine/google//modules/node-pool | n/a |
 
 ## Resources
 
