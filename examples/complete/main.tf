@@ -29,7 +29,7 @@ module "managed_node_pool" {
   source             = "squareops/kubernetes-engine/google//modules/node-pool"
   depends_on         = [module.gke]
   project            = local.project
-  cluster_name       = module.gke.name
+  cluster_name       = module.gke.cluster_name
   name               = "app"
   environment        = local.environment
   location           = local.region

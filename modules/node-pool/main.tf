@@ -41,7 +41,7 @@ resource "google_container_node_pool" "node_pool" {
     })
     dynamic "taint" {
       for_each = concat(
-        local.node_pools_taints["all"],
+        var.node_pools_taints["all"],
       )
       content {
         effect = taint.value.effect
