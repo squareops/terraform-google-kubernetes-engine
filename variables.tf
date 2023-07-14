@@ -87,11 +87,16 @@ variable "enable_private_nodes" {
   type        = bool
   default     = true
 }
+variable "master_ipv4_cidr_block" {
+  type        = string
+  description = "(Beta) The IP range in CIDR notation to use for the hosted master network"
+  default     = "10.0.0.0/28"
+}
 
 variable "master_authorized_networks" {
-  type        = list(object({ cidr_block = string, display_name = string }))
-  description = "List of master authorized networks. If none are provided, disallow external access (except the cluster node IPs, which GKE automatically whitelists)."
-  default     = []
+  description = "Authorized networks for GKE master."
+  default     = ""
+  type        = string
 }
 
 variable "master_global_access_enabled" {

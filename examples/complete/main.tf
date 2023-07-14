@@ -15,8 +15,8 @@ module "gke" {
   vpc_name                   = "dev-vpc"
   subnet                     = "dev-subnet-1"
   kubernetes_version         = "1.25"
-  enable_private_endpoint    = true
-  master_authorized_networks = [""]
+  enable_private_endpoint    = false
+  master_authorized_networks = ""
   default_np_instance_type   = "e2-medium"
   default_np_locations       = "asia-south1-a,asia-south1-b"
   default_np_max_count       = 5

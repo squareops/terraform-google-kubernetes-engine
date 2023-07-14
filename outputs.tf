@@ -25,21 +25,6 @@ output "cluster_name" {
   value       = module.gke.name
 }
 
-output "network_name" {
-  description = "The name of the VPC being created"
-  value       = module.gcp-network.network_name
-}
-
-output "subnet_name" {
-  description = "The name of the subnet being created"
-  value       = module.gcp-network.subnets_names
-}
-
-output "subnet_secondary_ranges" {
-  description = "The secondary ranges associated with the subnet"
-  value       = module.gcp-network.subnets_secondary_ranges
-}
-
 output "peering_name" {
   description = "The name of the peering between this cluster and the Google owned VPC."
   value       = module.gke.peering_name
