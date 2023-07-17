@@ -1,0 +1,6 @@
+exclude:
+  - google-gke-enforce-pod-security-policy
+  - google-gke-enable-master-networks # public endpoint
+  - google-gke-node-metadata-security
+  - google-gke-enable-network-policy #Disabled by default
+  - google-gke-use-cluster-labels
