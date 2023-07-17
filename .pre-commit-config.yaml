@@ -20,3 +20,8 @@ repos:
       - id: terraform_tflint
         args:
           - --args=--config=.tflint.hcl
+      - id: terraform_tfsec
+        files: ^examples/ # only scan `examples/*` which are the implementation
+        args:
+          - --args=--config-file=__GIT_WORKING_DIR__/tfsec.yaml
+          - --args=--concise-output
