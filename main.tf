@@ -19,6 +19,7 @@ module "service_accounts_gke" {
     "${local.project}=>roles/stackdriver.resourceMetadata.writer",
     "${local.project}=>roles/storage.objectViewer",
     "${local.project}=>roles/artifactregistry.admin",
+    "${local.project}=>roles/cloudkms.cryptoKeyEncrypterDecrypter",
   ]
   display_name = format("%s-%s-gke-cluster Nodes Service Account", var.cluster_name, local.environment)
 }
@@ -46,6 +47,7 @@ module "gke" {
   enable_private_nodes          = var.enable_private_nodes
   master_ipv4_cidr_block        = var.master_ipv4_cidr_block
   gke_backup_agent_config       = var.gke_backup_agent_config
+  database_encryption           = var.database_encryption
   create_service_account        = false
   remove_default_node_pool      = var.remove_default_node_pool
   master_authorized_networks    = var.enable_private_endpoint ? [{ cidr_block = var.master_authorized_networks, display_name = "VPN IP" }] : []

@@ -107,6 +107,7 @@ To prevent destruction interruptions, any resources that have been created outsi
 |------|-------------|------|---------|:--------:|
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | The name of the GKE cluster. | `string` | `""` | no |
 | <a name="input_cluster_resource_labels"></a> [cluster\_resource\_labels](#input\_cluster\_resource\_labels) | The GCE resource labels (a map of key/value pairs) to be applied to the cluster | `map(string)` | `{}` | no |
+| <a name="input_database_encryption"></a> [database\_encryption](#input\_database\_encryption) | Application-layer Secrets Encryption settings. The object format is {state = string, key\_name = string}. Valid values of state are: "ENCRYPTED"; "DECRYPTED". key\_name is the name of a CloudKMS key. | `list(object({ state = string, key_name = string }))` | <pre>[<br>  {<br>    "key_name": "",<br>    "state": "DECRYPTED"<br>  }<br>]</pre> | no |
 | <a name="input_default_np_disk_size_gb"></a> [default\_np\_disk\_size\_gb](#input\_default\_np\_disk\_size\_gb) | Disk size (in GB) for the default node pool | `number` | `50` | no |
 | <a name="input_default_np_initial_node_count"></a> [default\_np\_initial\_node\_count](#input\_default\_np\_initial\_node\_count) | Initial number of nodes for the default node pool | `number` | `1` | no |
 | <a name="input_default_np_instance_type"></a> [default\_np\_instance\_type](#input\_default\_np\_instance\_type) | Machine type for the default node pool | `string` | `"e2-medium"` | no |
