@@ -17,7 +17,7 @@ This module is ideal for users who want to quickly deploy an GKE cluster on GCP 
 module "gke" {
   source                     = "squareops/kubernetes-engine/google"
   project                    = project_name
-  cluster_name               = "gke-cluster"
+  name                       = "gke-cluster"
   region                     = "asia-south1"
   environment                = "dev"
   gke_zones                      = ["asia-south1-a", "asia-south1-b", "asia-south1-c"]
@@ -35,7 +35,7 @@ module "node_pool" {
   source             = "squareops/kubernetes-engine/google//modules/node-pool"
   depends_on         = [module.gke]
   project            = project_name
-  cluster_name       = module.gke.name
+  name       = module.gke.name
   name               = "app"
   environment        = "dev"
   location           = "asia-south1"
@@ -104,7 +104,6 @@ To prevent destruction interruptions, any resources that have been created outsi
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | The name of the GKE cluster. | `string` | `""` | no |
 | <a name="input_cluster_resource_labels"></a> [cluster\_resource\_labels](#input\_cluster\_resource\_labels) | The GCE resource labels (a map of key/value pairs) to be applied to the cluster | `map(string)` | `{}` | no |
 | <a name="input_database_encryption"></a> [database\_encryption](#input\_database\_encryption) | Application-layer Secrets Encryption settings. The object format is {state = string, key\_name = string}. Valid values of state are: "ENCRYPTED"; "DECRYPTED". key\_name is the name of a CloudKMS key. | `list(object({ state = string, key_name = string }))` | <pre>[<br>  {<br>    "key_name": "",<br>    "state": "DECRYPTED"<br>  }<br>]</pre> | no |
 | <a name="input_default_np_disk_size_gb"></a> [default\_np\_disk\_size\_gb](#input\_default\_np\_disk\_size\_gb) | Disk size (in GB) for the default node pool | `number` | `50` | no |
@@ -112,7 +111,7 @@ To prevent destruction interruptions, any resources that have been created outsi
 | <a name="input_default_np_instance_type"></a> [default\_np\_instance\_type](#input\_default\_np\_instance\_type) | Machine type for the default node pool | `string` | `"e2-medium"` | no |
 | <a name="input_default_np_max_count"></a> [default\_np\_max\_count](#input\_default\_np\_max\_count) | Maximum number of nodes for the default node pool | `number` | `3` | no |
 | <a name="input_default_np_min_count"></a> [default\_np\_min\_count](#input\_default\_np\_min\_count) | Minimum number of nodes for the default node pool | `number` | `1` | no |
-| <a name="input_default_np_name"></a> [default\_np\_name](#input\_default\_np\_name) | Name of the default node pool | `string` | `"default"` | no |
+| <a name="input_default_np_name"></a> [default\_np\_name](#input\_default\_np\_name) | Name of the default node pool | `string` | `"addons"` | no |
 | <a name="input_default_np_preemptible"></a> [default\_np\_preemptible](#input\_default\_np\_preemptible) | Enable preemptible instances for the default node pool | `bool` | `true` | no |
 | <a name="input_disk_type"></a> [disk\_type](#input\_disk\_type) | Disk type for the default node pool | `string` | `"pd-standard"` | no |
 | <a name="input_enable_private_endpoint"></a> [enable\_private\_endpoint](#input\_enable\_private\_endpoint) | Whether to enable the private endpoint for the GKE cluster. | `bool` | `false` | no |
@@ -131,6 +130,7 @@ To prevent destruction interruptions, any resources that have been created outsi
 | <a name="input_master_ipv4_cidr_block"></a> [master\_ipv4\_cidr\_block](#input\_master\_ipv4\_cidr\_block) | (Beta) The IP range in CIDR notation to use for the hosted master network | `string` | `"10.0.0.0/28"` | no |
 | <a name="input_monitoring_enabled_components"></a> [monitoring\_enabled\_components](#input\_monitoring\_enabled\_components) | List of services to monitor: SYSTEM\_COMPONENTS, WORKLOADS (provider version >= 3.89.0). Empty list is default GKE configuration. | `list(string)` | `[]` | no |
 | <a name="input_monitoring_service"></a> [monitoring\_service](#input\_monitoring\_service) | The monitoring service that the cluster should write metrics to. Automatically send metrics from pods in the cluster to the Google Cloud Monitoring API. VM metrics will be collected by Google Compute Engine regardless of this setting Available options include monitoring.googleapis.com, monitoring.googleapis.com/kubernetes (beta) and none | `string` | `"monitoring.googleapis.com/kubernetes"` | no |
+| <a name="input_name"></a> [name](#input\_name) | The suffix name for the resources being created. | `string` | n/a | yes |
 | <a name="input_network_policy"></a> [network\_policy](#input\_network\_policy) | Enable network policy addon | `bool` | `false` | no |
 | <a name="input_network_policy_provider"></a> [network\_policy\_provider](#input\_network\_policy\_provider) | The network policy provider. | `string` | `"CALICO"` | no |
 | <a name="input_node_pools_oauth_scopes"></a> [node\_pools\_oauth\_scopes](#input\_node\_pools\_oauth\_scopes) | Map of lists containing node oauth scopes by node-pool name | `map(list(string))` | <pre>{<br>  "all": [<br>    "https://www.googleapis.com/auth/devstorage.read_only",<br>    "https://www.googleapis.com/auth/ndev.clouddns.readwrite",<br>    "https://www.googleapis.com/auth/service.management.readonly",<br>    "https://www.googleapis.com/auth/logging.write",<br>    "https://www.googleapis.com/auth/monitoring",<br>    "https://www.googleapis.com/auth/servicecontrol",<br>    "https://www.googleapis.com/auth/trace.append",<br>    "https://www.googleapis.com/auth/devstorage.read_only",<br>    "https://www.googleapis.com/auth/cloud-platform"<br>  ]<br>}</pre> | no |

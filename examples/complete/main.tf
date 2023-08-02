@@ -8,7 +8,7 @@ locals {
 module "gke" {
   source                  = "squareops/kubernetes-engine/google"
   project                 = local.project_name
-  cluster_name            = local.name
+  name                    = local.name
   region                  = local.region
   environment             = local.environment
   gke_zones               = ["asia-south1-a", "asia-south1-b", "asia-south1-c"]

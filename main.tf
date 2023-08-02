@@ -11,7 +11,7 @@ module "service_accounts_gke" {
   source     = "terraform-google-modules/service-accounts/google"
   version    = "~> 3.0"
   project_id = local.project
-  prefix     = var.cluster_name
+  prefix     = var.name
   names      = [local.environment]
   project_roles = [
     "${local.project}=>roles/monitoring.viewer",
@@ -22,14 +22,14 @@ module "service_accounts_gke" {
     "${local.project}=>roles/artifactregistry.admin",
     "${local.project}=>roles/cloudkms.cryptoKeyEncrypterDecrypter",
   ]
-  display_name = format("%s-%s-gke-cluster Nodes Service Account", var.cluster_name, local.environment)
+  display_name = format("%s-%s-gke-cluster Nodes Service Account", var.name, local.environment)
 }
 
 module "gke" {
   source                        = "terraform-google-modules/kubernetes-engine/google//modules/private-cluster"
   version                       = "27.0.0"
   project_id                    = local.project
-  name                          = format("%s-%s-gke-cluster", var.cluster_name, local.environment)
+  name                          = format("%s-%s-gke-cluster", var.name, local.environment)
   regional                      = var.regional
   region                        = local.region
   zones                         = var.gke_zones

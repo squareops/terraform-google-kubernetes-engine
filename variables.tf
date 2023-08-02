@@ -10,10 +10,9 @@ variable "environment" {
   default     = ""
 }
 
-variable "cluster_name" {
-  description = "The name of the GKE cluster."
+variable "name" {
+  description = "The suffix name for the resources being created."
   type        = string
-  default     = ""
 }
 
 variable "regional" {
