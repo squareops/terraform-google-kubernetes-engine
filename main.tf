@@ -1,7 +1,8 @@
 locals {
-  region      = var.region
-  project     = var.project_name
-  environment = var.environment
+  region           = var.region
+  project          = var.project_name
+  environment      = var.environment
+  gke_zones_string = join(",", var.gke_zones)
 }
 
 data "google_client_config" "default" {}
@@ -31,7 +32,7 @@ module "gke" {
   name                          = format("%s-%s-gke-cluster", var.cluster_name, local.environment)
   regional                      = var.regional
   region                        = local.region
-  zones                         = var.zones
+  zones                         = var.gke_zones
   network                       = var.vpc_name
   subnetwork                    = var.subnet
   master_global_access_enabled  = var.master_global_access_enabled
@@ -60,7 +61,7 @@ module "gke" {
     {
       name               = format("%s-%s-node-pool", var.default_np_name, local.environment)
       machine_type       = var.default_np_instance_type
-      node_locations     = var.default_np_locations
+      node_locations     = local.gke_zones_string
       min_count          = var.default_np_min_count
       max_count          = var.default_np_max_count
       local_ssd_count    = 0
@@ -82,7 +83,7 @@ module "gke" {
     all = {}
 
     format("%s-%s-node-pool", var.default_np_name, local.environment) = {
-      "Infra-Services" = true
+      "Addon-Services" = true
     }
   }
 

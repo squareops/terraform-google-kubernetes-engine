@@ -20,12 +20,11 @@ module "gke" {
   cluster_name               = "gke-cluster"
   region                     = "asia-south1"
   environment                = "dev"
-  zones                      = ["asia-south1-a", "asia-south1-b", "asia-south1-c"]
+  gke_zones                      = ["asia-south1-a", "asia-south1-b", "asia-south1-c"]
   vpc_name                   = "dev-vpc"
   subnet                     = "dev-subnet-1"
   kubernetes_version         = "1.25"
   default_np_instance_type   = "e2-medium"
-  default_np_locations       = "asia-south1-a,asia-south1-b"
   default_np_max_count       = 5
   default_np_preemptible     = true
 
@@ -111,7 +110,6 @@ To prevent destruction interruptions, any resources that have been created outsi
 | <a name="input_default_np_disk_size_gb"></a> [default\_np\_disk\_size\_gb](#input\_default\_np\_disk\_size\_gb) | Disk size (in GB) for the default node pool | `number` | `50` | no |
 | <a name="input_default_np_initial_node_count"></a> [default\_np\_initial\_node\_count](#input\_default\_np\_initial\_node\_count) | Initial number of nodes for the default node pool | `number` | `1` | no |
 | <a name="input_default_np_instance_type"></a> [default\_np\_instance\_type](#input\_default\_np\_instance\_type) | Machine type for the default node pool | `string` | `"e2-medium"` | no |
-| <a name="input_default_np_locations"></a> [default\_np\_locations](#input\_default\_np\_locations) | Locations for the default node pool | `string` | `"asia-south1-a"` | no |
 | <a name="input_default_np_max_count"></a> [default\_np\_max\_count](#input\_default\_np\_max\_count) | Maximum number of nodes for the default node pool | `number` | `3` | no |
 | <a name="input_default_np_min_count"></a> [default\_np\_min\_count](#input\_default\_np\_min\_count) | Minimum number of nodes for the default node pool | `number` | `1` | no |
 | <a name="input_default_np_name"></a> [default\_np\_name](#input\_default\_np\_name) | Name of the default node pool | `string` | `"default"` | no |
@@ -122,6 +120,7 @@ To prevent destruction interruptions, any resources that have been created outsi
 | <a name="input_enable_secure_boot"></a> [enable\_secure\_boot](#input\_enable\_secure\_boot) | Enable secure boot for the default node pool | `bool` | `false` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | The environment in which the resources are being deployed. | `string` | `""` | no |
 | <a name="input_gke_backup_agent_config"></a> [gke\_backup\_agent\_config](#input\_gke\_backup\_agent\_config) | Whether Backup for GKE agent is enabled for this cluster. | `bool` | `false` | no |
+| <a name="input_gke_zones"></a> [gke\_zones](#input\_gke\_zones) | The zones to host the cluster in (optional if regional cluster / required if zonal) | `list(string)` | `[]` | no |
 | <a name="input_ip_range_pods_name"></a> [ip\_range\_pods\_name](#input\_ip\_range\_pods\_name) | The name of the IP range for pods in the GKE cluster. | `string` | `""` | no |
 | <a name="input_ip_range_services_name"></a> [ip\_range\_services\_name](#input\_ip\_range\_services\_name) | The name of the IP range for services in the GKE cluster. | `string` | `""` | no |
 | <a name="input_kubernetes_version"></a> [kubernetes\_version](#input\_kubernetes\_version) | The desired Kubernetes version for the GKE cluster. | `string` | `"1.25"` | no |
@@ -142,7 +141,6 @@ To prevent destruction interruptions, any resources that have been created outsi
 | <a name="input_remove_default_node_pool"></a> [remove\_default\_node\_pool](#input\_remove\_default\_node\_pool) | Remove default node pool | `bool` | `true` | no |
 | <a name="input_subnet"></a> [subnet](#input\_subnet) | The name of the subnet within the VPC network for the GKE cluster. | `string` | `""` | no |
 | <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | The name of the VPC network where the GKE cluster will be created. | `string` | `""` | no |
-| <a name="input_zones"></a> [zones](#input\_zones) | The zones to host the cluster in (optional if regional cluster / required if zonal) | `list(string)` | `[]` | no |
 
 ## Outputs
 
@@ -154,7 +152,6 @@ To prevent destruction interruptions, any resources that have been created outsi
 | <a name="output_cluster_region"></a> [cluster\_region](#output\_cluster\_region) | The region where the GKE cluster is located. |
 | <a name="output_kubernetes_endpoint"></a> [kubernetes\_endpoint](#output\_kubernetes\_endpoint) | The cluster endpoint |
 | <a name="output_peering_name"></a> [peering\_name](#output\_peering\_name) | The name of the peering between this cluster and the Google owned VPC. |
-| <a name="output_service_account"></a> [service\_account](#output\_service\_account) | The default service account used for running nodes. |
 | <a name="output_service_accounts_gke"></a> [service\_accounts\_gke](#output\_service\_accounts\_gke) | The service account to default running nodes. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

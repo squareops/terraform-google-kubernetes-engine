@@ -28,7 +28,7 @@ variable "region" {
   default     = null
 }
 
-variable "zones" {
+variable "gke_zones" {
   type        = list(string)
   description = "The zones to host the cluster in (optional if regional cluster / required if zonal)"
   default     = []
@@ -166,19 +166,13 @@ variable "remove_default_node_pool" {
 variable "default_np_name" {
   description = "Name of the default node pool"
   type        = string
-  default     = "default"
+  default     = "addons"
 }
 
 variable "default_np_instance_type" {
   description = "Machine type for the default node pool"
   type        = string
   default     = "e2-medium"
-}
-
-variable "default_np_locations" {
-  description = "Locations for the default node pool"
-  type        = string
-  default     = "asia-south1-a"
 }
 
 variable "default_np_min_count" {
